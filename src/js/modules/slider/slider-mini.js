@@ -6,7 +6,7 @@ export default class MiniSlider extends Slider {
     }
 
     decorizeSlides() {
-        this.slides.forEach(slide => {
+        Array.from(this.slides).forEach(slide => {
             slide.classList.remove(this.activeClass);
             if (this.animate) {
                 slide.querySelector('.card__title').style.opacity = '0.4';
@@ -42,6 +42,8 @@ export default class MiniSlider extends Slider {
 
     bindTriggers() {
         this.next.addEventListener('click', () => this.nextSlide());
+        //console.log(this.next);
+        console.log(this.slides);
 
         this.prev.addEventListener('click', () => {
 
