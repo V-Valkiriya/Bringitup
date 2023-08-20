@@ -137,49 +137,68 @@ class MiniSlider extends _slider__WEBPACK_IMPORTED_MODULE_0__["default"] {
     super(container, next, prev, activeClass, animate, autoplay);
   }
   decorizeSlides() {
-    Array.from(this.slides).forEach(slide => {
+    this.slides.forEach(slide => {
       slide.classList.remove(this.activeClass);
       if (this.animate) {
         slide.querySelector('.card__title').style.opacity = '0.4';
         slide.querySelector('.card__controls-arrow').style.opacity = '0';
       }
     });
-    if (!this.slides[0].closest('button')) {
-      this.slides[0].classList.add(this.activeClass);
+    if (!this.miniSlides[0].closest('button')) {
+      this.miniSlides[0].classList.add(this.activeClass);
     }
     if (this.animate) {
-      this.slides[0].querySelector('.card__title').style.opacity = '1';
-      this.slides[0].querySelector('.card__controls-arrow').style.opacity = '1';
+      this.miniSlides[0].querySelector('.card__title').style.opacity = '1';
+      this.miniSlides[0].querySelector('.card__controls-arrow').style.opacity = '1';
     }
   }
   nextSlide() {
-    if (this.slides[1].tagName == "BUTTON" && this.slides[2].tagName == "BUTTON") {
-      this.container.appendChild(this.slides[0]); // Slide
-      this.container.appendChild(this.slides[1]); // Btn
-      this.container.appendChild(this.slides[2]); // Btn
+    if (this.miniSlides[1].tagName == "BUTTON" && this.miniSlides[2].tagName == "BUTTON") {
+      this.container.appendChild(this.miniSlides[2]); // Btn
+      this.container.appendChild(this.miniSlides[1]); // Btn
+      this.container.appendChild(this.miniSlides[0]); // Slide
       this.decorizeSlides();
-    } else if (this.slides[1].tagName == "BUTTON") {
-      this.container.appendChild(this.slides[0]); // Slide
-      this.container.appendChild(this.slides[1]); // Btn
+    } else if (this.miniSlides[1].tagName == "BUTTON") {
+      this.container.appendChild(this.miniSlides[1]); // Btn
+      this.container.appendChild(this.miniSlides[0]); // Slide
       this.decorizeSlides();
     } else {
-      this.container.appendChild(this.slides[0]);
+      this.container.appendChild(this.miniSlides[0]);
       this.decorizeSlides();
     }
   }
   bindTriggers() {
-    this.next.addEventListener('click', () => this.nextSlide());
-    //console.log(this.next);
-    console.log(this.slides);
+    this.next.addEventListener('click', () => {
+      this.nextSlide();
+      //    console.log(this.miniSlides);
+    });
+    // console.log(this.next);
+    // console.log(this.slides);
+
     this.prev.addEventListener('click', () => {
-      for (let i = this.slides.length - 1; i > 0; i--) {
-        if (this.slides[i].tagName !== "BUTTON") {
-          let active = this.slides[i];
-          this.container.insertBefore(active, this.slides[0]);
+      for (let i = this.miniSlides.length - 1; i > 0; i--) {
+        if (this.miniSlides[i].tagName !== "BUTTON") {
+          let active = this.miniSlides[i];
+          this.container.insertBefore(active, this.miniSlides[0]);
           this.decorizeSlides();
           break;
         }
       }
+    });
+  }
+  activateAnimation() {
+    const play = setInterval(() => this.nextSlide(), 5000);
+    this.slides[0].parentNode.addEventListener('mouseenter', () => {
+      clearInterval(play);
+    });
+    this.slides[0].parentNode.addEventListener('mouseleave', () => {
+      this.activateAnimation();
+    });
+    this.next.parentNode.addEventListener('mouseenter', () => {
+      clearInterval(play);
+    });
+    this.next.parentNode.addEventListener('mouseleave', () => {
+      this.activateAnimation();
     });
   }
   init() {
@@ -192,7 +211,7 @@ class MiniSlider extends _slider__WEBPACK_IMPORTED_MODULE_0__["default"] {
     this.bindTriggers();
     this.decorizeSlides();
     if (this.autoplay) {
-      setInterval(() => this.nextSlide(), 5000);
+      this.activateAnimation();
     }
   }
 }
@@ -221,7 +240,8 @@ class Slider {
       autoplay
     } = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
     this.container = document.querySelector(container);
-    this.slides = Array.from(this.container.children);
+    this.slides = [...this.container.children];
+    this.miniSlides = this.container.children;
     this.btns = document.querySelectorAll(btns);
     this.prev = document.querySelector(prev);
     this.next = document.querySelector(next);
