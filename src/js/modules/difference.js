@@ -11,20 +11,26 @@ export default class Difference {
     bindTriggers(container, items, counter) {
         container.querySelector('.plus').addEventListener('click', () =>  {
             if (counter !== items.length - 2) {
+                items[counter].classList.add('animated');
+                items[counter].style.opacity = '1';
+                items[counter].classList.add('slideInUp');
                 items[counter].style.display = 'flex';
                 counter++;
-            } else {
+            } else { 
+                items[counter].classList.add('animated');
+                items[counter].style.opacity = '1';
+                items[counter].classList.add('slideInUp');
                 items[counter].style.display = 'flex';
                 items[items.length - 1].remove();
             }   
 
-            // items.forEach(item => {
-            //     item.classList.add('animated');
-            //     setTimeout(() => {
-            //         item.style.opacity = '1';
-            //         item.classList.add('slideInUp');
-            //     }, 1000);
-            // })
+                // setTimeout(() => {
+                //     items[counter].classList.add('animated');
+                //     items[counter].style.opacity = '1';
+                //     items[counter].classList.add('slideInUp');
+                //     items[counter].style.display = 'flex';
+                //     counter++;
+                // }, 500);    
          });
     }
 
