@@ -5,7 +5,7 @@ import Difference from './modules/difference';
 import Form from './modules/form';
 import ShowInfo from './modules/showInfo';
 import Download from './modules/download';
-// import Links from './modules/links';
+import Links from './modules/links';
 
 window.addEventListener('DOMContentLoaded', () => {
     const slider = new MainSlider({btns: '.next', container: '.page'});
@@ -52,5 +52,5 @@ window.addEventListener('DOMContentLoaded', () => {
 
     new Download('.download').init();
 
-    // new Links().init();
+    new Links().init();
 });
