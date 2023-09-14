@@ -4,10 +4,10 @@ export default class Links {
     this.links = document.querySelectorAll(".card");
   }
   init() {
-    this.links.forEach((item) => {
-      for (let i = 0; i < this.modules.length; i++) {
-        item.location.hash = this.modules[i].id;
-      }
-    });
+   this.modules[0].style.display = 'none';
+   this.page = new URL(window.location.href).searchParams.get("page");
+   if (this.page) {
+   this.modules[this.page - 1].style.display = 'block';
+   }
   }
 }
